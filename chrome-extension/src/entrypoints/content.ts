@@ -1,16 +1,37 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import NewIcon from '@/components/NewIcon';
+
 export default defineContentScript({
-  matches: ['*://www.google.com/*'],
+  matches: ['*://*.google.com/*', '*://*/*'],
   main() {
-    // Access the Google search input field by its name attribute ('q')
-    const searchField = document.querySelector('input[name="q"]') as HTMLInputElement;
+    const targetClass = 'msg-form__contenteditable';
 
-    if (searchField) {
-      // Insert text into the search field
-      searchField.value = "AI-powered search suggestion";
+    // Use MutationObserver to wait for the element to load
+    const observer = new MutationObserver((mutations, obs) => {
+      const targetElement = document.getElementsByClassName(targetClass)[0];
+      if (targetElement) {
+        // Stop observing once the element is found
+        obs.disconnect();
 
-      // Trigger an 'input' event to simulate typing so Google reacts to the new value
-      const event = new Event('input', { bubbles: true });
-      searchField.dispatchEvent(event);
-    }
-  }
+        // Create and style the container for NewIcon
+        const container = document.createElement('div');
+        container.id = 'hello-world-container';
+        container.style.position = 'absolute';
+        container.style.bottom = '0px';
+        container.style.right = '0px';
+        container.style.zIndex = '99999';
+
+        // Append the container to the target element
+        targetElement.appendChild(container);
+
+        // Render the NewIcon React component
+        const root = createRoot(container);
+        root.render(React.createElement(NewIcon));
+      }
+    });
+
+    // Start observing the body for added nodes
+    observer.observe(document.body, { childList: true, subtree: true });
+  },
 });
