@@ -39,7 +39,7 @@ function App() {
 
   return (
     <>
-      <div>
+      <div style={{width:'400px'}}>
       </div>
       <h1>WXT + React</h1>
       <div className="card">

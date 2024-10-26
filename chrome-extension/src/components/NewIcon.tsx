@@ -26,28 +26,13 @@ const NewIcon: React.FC = () => {
 
   return (
     <div
-      style={{
-        width: '30px',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        lineHeight: '44px',
-        backgroundColor: 'transparent',
-        cursor: 'pointer',
-        overflow: 'hidden'
-      }}
+      className={`w-9 h-full flex items-center line-height[44px] cursor-pointer overflow-hidden changeBg`}
       onClick={togglePopup}
     >
       <img
         src={image}
         alt="Icon"
-        style={{
-          width: '30px',
-          height: '30px',
-          objectFit: 'contain',
-          verticalAlign: 'middle',
-          display: showPopup ? 'none' : 'block'
-        }}
+        className={`w-9 h-9 object-contain vertical-align-middle ${showPopup ? 'hidden' : 'block'}`}
       />
       {showPopup && (
         <div ref={popupRef}>
@@ -56,6 +41,6 @@ const NewIcon: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default NewIcon;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import GenerateBtn from '@/assets/Generate-btn.png';
 
 const Popup: React.FC = () => {
   const [position, setPosition] = useState<{ top: number; left: number; width: number }>({
@@ -24,21 +25,17 @@ const Popup: React.FC = () => {
 
   return ReactDOM.createPortal(
     <div
+      className={`absolute z-[100000] bg-white border border-[#adadad] rounded-lg shadow-xl`}
       style={{
-        position: 'absolute',
         top: `${position.top}px`,
         left: `${position.left}px`,
         width: `${position.width}px`, // Use the calculated width
-        padding: '10px',
-        backgroundColor: '#fff',
-        border: '1px solid #ddd',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 100000,
       }}
     >
-      <p className=' font-bold from-stone-100'>This is your popup content!</p>
-      <button className=' text-blue-700'>Close</button>
+      <div className="p-2">
+        <img className='h-8' src={GenerateBtn} alt='Generate' />
+      </div>
+      {/* <p className='font-extrabold'>This is your popup content!</p> */}
     </div>,
     document.body
   );

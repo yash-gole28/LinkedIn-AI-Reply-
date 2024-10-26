@@ -1,10 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import NewIcon from '@/components/NewIcon';
+import '@/entrypoints/popup/style.css'
 
 export default defineContentScript({
   matches: ['*://*.google.com/*', '*://*/*'],
   main() {
+    
     const targetClass = 'msg-form__contenteditable';
 
     // Use MutationObserver to wait for the element to load
