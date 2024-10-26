@@ -2,7 +2,11 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        'custom-border': 'inset 0 0 0 1px rgb(192, 191, 191) !important',
+      },
+    },
   },
   plugins: [],
 }
