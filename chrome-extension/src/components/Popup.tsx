@@ -24,47 +24,46 @@ const Popup: React.FC<PopupProps> = ({ togglePopup }) => {
 
   const handleClick = () => {
     if (prompt.trim() !== "") {
-      setConversation([...conversation, prompt]);
+      setConversation([...conversation,prompt,"Thank you for the opportunity! If you have any more questions or if there's anything else I can help you with, feel free to ask."]);
       setPrompt(""); // Clear the input
       setButtonToggle(!buttonToggle);
+      console.log(conversation)
     }
   };
 
   const handleInsert = () => {
     if (conversation.length > 0) {
       const lastPrompt = conversation[conversation.length - 1];
-      const targetElement = document.querySelector('.msg-form__contenteditable') as HTMLElement;
-
+      const targetElement = document.querySelector('.msg-form__contenteditable p') as HTMLElement;
+  
       if (targetElement) {
         targetElement.focus(); // Focus on the contenteditable element
-
-        // Clear existing content (optional)
+  
         targetElement.innerHTML = "";
 
-        // Insert text
         targetElement.innerHTML = lastPrompt;
-
+  
         // Trigger an 'input' event to simulate typing so LinkedIn reacts to the new value
         const event = new Event('input', { bubbles: true });
         targetElement.dispatchEvent(event);
-
+  
         togglePopup(false); // Close the popup
       }
     }
   };
-
+  
 
   useEffect(() => {
     const targetElement = document.querySelector('.msg-form__contenteditable') as HTMLElement;
     if (targetElement) {
       const rect = targetElement.getBoundingClientRect();
       setPosition({
-        top: rect.top + window.scrollY - 100,
+        top: conversation?.length > 0 ? rect.top + window.scrollY - 200 : rect.top + window.scrollY - 100, 
         left: rect.left + window.scrollX,
         width: rect.width,
       });
     }
-  }, []);
+  }, [conversation]);
 
   return ReactDOM.createPortal(
     <div
@@ -79,10 +78,10 @@ const Popup: React.FC<PopupProps> = ({ togglePopup }) => {
         {conversation.length > 0 && conversation.map((data, index) => (
           <div
             key={index}
-            className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'} my-1`}
+            className={`flex ${index % 2 === 0 ? 'justify-end' : 'justify-start'} my-1`}
           >
             <div
-              className={`border border-gray-300 rounded-md p-2 max-w-xs ${index % 2 === 0 ? 'bg-blue-100' : 'bg-green-100'}`}
+              className={`border border-gray-300 rounded-md p-2 max-w-[75%] ${index % 2 === 0 ? ' bg-custom-gray' : ' bg-custom-blue'}`}
             >
               {data}
             </div>
@@ -100,11 +99,11 @@ const Popup: React.FC<PopupProps> = ({ togglePopup }) => {
       </div>
       <div className="p-2 flex justify-end">
         {buttonToggle ? (
-          <img className="h-8 cursor-pointer" onClick={handleClick} src={GenerateBtn} alt="Generate Button" />
+          <img className="h-10 cursor-pointer" onClick={handleClick} src={GenerateBtn} alt="Generate Button" />
         ) : (
           <>
-            <img className="h-8 cursor-pointer" onClick={handleInsert} src={Insert} alt="" />
-            <img className="h-8 cursor-pointer" src={ReGenerateBtn} alt="" />
+            <img className="h-10 cursor-pointer" onClick={handleInsert} src={Insert} alt="" />
+            <img className="h-10 cursor-pointer ml-3" src={ReGenerateBtn} alt="" />
           </>
         )}
       </div>

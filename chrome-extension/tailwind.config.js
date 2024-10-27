@@ -5,6 +5,11 @@ export default {
     extend: {
       boxShadow: {
         'custom-border': 'inset 0 0 0 1px rgb(192, 191, 191) !important',
+        
+      },
+      colors: {
+        'custom-gray': '#DFE1E7',
+        'custom-blue': '#DBEAFE',
       },
     },
   },
