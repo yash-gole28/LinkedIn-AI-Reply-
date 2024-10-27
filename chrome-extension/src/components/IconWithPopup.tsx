@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import image from '@/assets/Frame.svg';
 import Popup from './Popup';
 
-const NewIcon: React.FC = () => {
+const IconWithPopup: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
 
-  const togglePopup = () => setShowPopup(!showPopup);
+  const togglePopup = () => setShowPopup((prev) => !prev);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <div className="relative w-9 h-full flex items-center cursor-pointer overflow-hidden">
@@ -22,12 +26,14 @@ const NewIcon: React.FC = () => {
           {/* Overlay */}
           <div
             className="fixed inset-0 bg-black opacity-50"
-            onClick={() => setShowPopup(false)} // Close popup on overlay click
+            onClick={closePopup} // Close popup on overlay click
+            role="presentation" 
+            aria-hidden="true"
           />
 
           {/* Popup */}
           <div className="absolute z-50">
-            <Popup togglePopup={setShowPopup}/>
+            <Popup togglePopup={closePopup} />
           </div>
         </>
       )}
@@ -35,4 +41,4 @@ const NewIcon: React.FC = () => {
   );
 };
 
-export default NewIcon;
+export default IconWithPopup;
