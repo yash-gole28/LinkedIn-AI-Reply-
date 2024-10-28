@@ -18,21 +18,13 @@ const IconWithPopup: React.FC = () => {
         src={image}
         alt="Icon"
         className={`w-9 h-9 object-contain ${showPopup ? 'hidden' : 'block'}`}
-        onClick={togglePopup} // Only clicking on the icon toggles the popup
+        onClick={togglePopup}
       />
 
       {showPopup && (
         <>
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black opacity-50"
-            onClick={closePopup} // Close popup on overlay click
-            role="presentation" 
-            aria-hidden="true"
-          />
-
           {/* Popup */}
-          <div className="absolute z-50">
+          <div className="absolute z-[999]">
             <Popup togglePopup={closePopup} />
           </div>
         </>

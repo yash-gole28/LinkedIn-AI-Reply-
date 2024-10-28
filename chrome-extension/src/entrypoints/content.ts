@@ -8,9 +8,11 @@ export default defineContentScript({
   main() {
     const messageFormClass = 'msg-form__contenteditable';
     let currentUrl = window.location.href;
+    let iconContainer: HTMLDivElement | null = null; // Declare iconContainer outside
+    let isListenerAdded = false; // Flag to track if listeners are added
 
     /**
-     * Creates and returns an icon container div with Tailwind styling
+     * Creates and returns an icon container div 
      */
     const createIconContainer = (): HTMLDivElement | null => {
       try {
@@ -35,20 +37,33 @@ export default defineContentScript({
         return; // Exit the function if the target element doesn't exist
       }
 
-      const existingContainer = document.getElementById('icon-container');
-      
-      if (!existingContainer) {
-        const container = createIconContainer();
-        if (container) {
-          targetElement.appendChild(container);
-
+      // Create the icon container only once
+      if (!iconContainer) {
+        iconContainer = createIconContainer();
+        if (iconContainer) {
+          targetElement.appendChild(iconContainer);
           try {
-            const root = createRoot(container);
+            const root = createRoot(iconContainer);
             root.render(React.createElement(IconWithPopup));
           } catch (error) {
             console.error('Error rendering React component:', error);
           }
         }
+      }
+
+      // Add focus and blur event listeners only once
+      if (!isListenerAdded) {
+        iconContainer!.style.display = 'none'; // Initially hide the icon
+
+        targetElement.addEventListener('focus', () => {
+          iconContainer!.style.display = 'block'; // Show the icon
+        });
+
+        targetElement.addEventListener('blur', () => {
+          iconContainer!.style.display = 'none'; // Hide the icon
+        });
+
+        isListenerAdded = true; // Set flag to true to prevent adding listeners again
       }
     };
 
