@@ -48,5 +48,5 @@ Start the server
 
 ## Demo
 
-Insert gif or link to demo
+https://github.com/user-attachments/assets/7512beec-35cf-4dba-bd91-9ec83ab13a42
 
